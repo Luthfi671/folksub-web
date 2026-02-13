@@ -88,3 +88,14 @@ hero.addEventListener("mouseleave", () => {
   follower.style.width = "36px";
   follower.style.height = "36px";
 });
+
+const track = document.getElementById("navTrack");
+if (track) {
+  track.addEventListener("wheel", (e) => {
+    // kalau user scroll vertical, kita alihkan jadi horizontal
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      e.preventDefault();
+      track.scrollLeft += e.deltaY;
+    }
+  }, { passive: false });
+}

@@ -119,22 +119,60 @@
   }
   
   /* nav desktop */
-  .nav {
+  .nav{
+    flex: 1;
     display: flex;
-    align-items: center;
-    gap: 18px;
+    justify-content: flex-end;   /* dari center -> start */
+    position: relative;
+    min-width: 0;                 /* PENTING biar scroll horizontal jalan bener */
+    margin: 0 16px;               /* kasih jarak kiri/kanan, optional */
+    max-width: none;              /* biar fleksibel */
   }
   
+  /* area yang bisa di-scroll horizontal */
+  .nav-track {
+    display: flex;
+    gap: 18px;
+    width: 100%;
+    justify-content: flex-end;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 6px 10px;
+  
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;      /* Firefox */
+  }
+  .nav-track::-webkit-scrollbar { display: none; } /* Chrome */
+  
+  /* efek “fade” di kiri/kanan supaya keliatan masih bisa geser */
+  .nav::before,
+  .nav::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 28px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .nav::before {
+    left: 0;
+    /* background: linear-gradient(to right, rgba(12,12,12,0.85), rgba(12,12,12,0)); */
+  }
+  .nav::after {
+    right: 0;
+    /* background: linear-gradient(to left, rgba(12,12,12,0.85), rgba(12,12,12,0)); */
+  }
+  
+  /* link tetap seperti punyamu */
   .nav a {
     text-decoration: none;
     color: rgba(255,255,255,0.78);
     font-size: 0.95rem;
     transition: color 0.2s ease;
   }
-
-  .nav a:hover {
-    color: rgba(255,255,255,1);
-  }
+  .nav a:hover { color: rgba(255,255,255,1); }
   
   /* burger button */
   .menu-btn {
@@ -183,7 +221,14 @@
     }
   
     .site-header.menu-open .nav {
-      display: flex;
+      display: block;
+    }
+
+    .nav-track {
+      flex-direction: column;   /* dari row → column */
+      overflow-x: visible;      /* matikan scroll horizontal */
+      white-space: normal;      /* biar bisa turun */
+      gap: 14px;
     }
   
     .menu-btn {
