@@ -45,7 +45,7 @@
   .section:not(.hero) {
     /* background: rgba(10, 10, 10, 0.25);
     border-top: 1px solid rgba(255, 255, 255, 0.06); */
-    backdrop-filter: blur(8px);
+    backdrop-filter: none;
   }
 
   .hero {
@@ -107,6 +107,7 @@
   .page {
     position: relative;
     padding-top: 84px; /* tinggi header */
+    z-index: 0;
   }
 
   .page::before {
@@ -114,18 +115,27 @@
     position: fixed;
     inset: 0;
     pointer-events: none;
-    background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.6) 100%);
-    z-index: 10;
+    z-index: -1;
+    background: radial-gradient(
+      circle at center,
+      rgba(0,0,0,0.00) 0%,
+      rgba(0,0,0,0.28) 55%,
+      rgba(0,0,0,0.55) 100%
+    );
   }
 
   /* Mobile tuning */
 @media (max-width: 768px){
   .page{ padding-top: 76px; }  /* sedikit turun (header kamu fixed) */
+  
+  .section{
+    min-height: 50vh;                 /* jangan maksa 70vh di HP */
+    padding: 56px 25px;               /* lebih rapat */
+  }
 
   .hero{
     min-height: calc(100svh - 76px); /* svh lebih aman di HP */
-    padding-top: 18px;
-    padding-bottom: 20px;
+    padding: 0px 18px 48px;
   }
 
   .title{
@@ -138,10 +148,6 @@
     padding-inline: 10px;
   }
 
-  .section{
-    min-height: 50vh;                 /* jangan maksa 70vh di HP */
-    padding: 56px 25px;               /* lebih rapat */
-  }
 }
 
 
@@ -334,6 +340,7 @@
     --parallaxY: 0px;
 }
   
+/* animated gradient */
 .bg::before {
   content:"";
   position:absolute;
@@ -351,28 +358,57 @@
   transform: translate3d(0, var(--parallaxY), 0) scale(1.08);
   will-change: transform, background-position;
   filter: saturate(1.15) contrast(1.05);
+  z-index: -1;
   }
 
-  .bg::before, .bg::after { position: absolute; }
-.bg::before { z-index: -1; }
-.bg::after  { z-index:  1; }
-.bg .glow   { z-index:  0; }
+  /* glow blobs */
+  .bg .glow{
+    position:absolute;
+    inset:-30%;
+    pointer-events:none;
+    filter: blur(70px);
+    opacity: 0.7;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(34,211,238,0.55), transparent 45%),
+      radial-gradient(circle at 70% 35%, rgba(37,99,235,0.55), transparent 45%),
+      radial-gradient(circle at 50% 75%, rgba(99,102,241,0.35), transparent 55%);
+    animation: glowFloat 10s ease-in-out infinite;
+    z-index: 0;
+  }
 
-  /* animasi gradien */
+  /* GRID + NOISE (satu layer, jangan dobel) */
+  .bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.85;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* particles layer */
+  .bg .particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px);
+    background-size: 120px 120px;
+    opacity: 0.6;
+    animation: moveParticles 40s linear infinite;
+    z-index: 2;
+  }
+  
+    /* animasi gradien */
 @keyframes gradientMove{
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
-}
-
-.bg .glow{
-  z-index: 0;  /* dari -1 jadi 0 */
-}
-.bg::before{
-  z-index: -1; /* pastiin layer gradient di bawah glow atau sebaliknya sesuai taste */
-}
-.bg::after{
-  z-index: 1;  /* noise paling atas */
 }
 
 @keyframes glowFloat {
@@ -381,24 +417,18 @@
   100% { transform: translate3d(-0.5%, 1.2%, 0) scale(1.04); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .bg::before, .bg .glow {
+@keyframes moveParticles {
+  from { transform: translateY(0); }
+  to { transform: translateY(-200px); }
+}
+
+/* respects reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .bg::before, .bg .glow, .bg .particles{
     animation: none !important;
   }
 }
   
-  .bg::after {
-    content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-  /* opacity: 0.05; */
-  mix-blend-mode: overlay;
-  pointer-events: none;
-  }
   
   /* animasi background */
   @keyframes floatBg {
@@ -407,21 +437,9 @@
     100% { transform: translate(1%, 2%)   scale(1.06); }
   }
 
-  .bg .particles {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      radial-gradient(rgba(255,255,255,0.3) 1px, transparent 1px);
-    background-size: 120px 120px;
-    opacity: 0.08;
-    animation: moveParticles 40s linear infinite;
-  }
   
-  @keyframes moveParticles {
-    from { transform: translateY(0); }
-    to { transform: translateY(-200px); }
-  }
+  
+ 
 
   /* matikan cursor default */
 * {
@@ -473,4 +491,28 @@
     * {
       cursor: auto;
     }
+  }
+
+
+  .live-time{
+    position: fixed;
+    bottom: 40px;
+    left: 40px;
+    z-index: 20;
+  
+    font-family: "FolksubFont", sans-serif;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.1em;
+    mix-blend-mode: difference;
+  }
+  
+  .live-time .date{
+    font-size: 0.8rem;
+    opacity: 0.6;
+  }
+  
+  .live-time .time{
+    text-shadow: 0 0 15px rgba(34,211,238,0.4);
+    font-size: 1.6rem;
+    font-weight: 600;
   }

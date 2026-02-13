@@ -100,3 +100,29 @@ if (track) {
     }
   }, { passive: false });
 }
+
+
+function updateTime() {
+  const now = new Date();
+
+  const options = {
+    weekday: 'long',
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  };
+
+  const dateString = now.toLocaleDateString('id-ID', options);
+
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const timeString = `${hours}:${minutes}:${seconds}`;
+
+  document.getElementById('liveDate').textContent = dateString;
+  document.getElementById('liveClock').textContent = timeString;
+}
+
+updateTime();
+setInterval(updateTime, 1000);
