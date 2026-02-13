@@ -17,9 +17,10 @@ let current = 0;
 let target = 0;
 
 function parallax() {
-  target = window.scrollY * 0.15;     // speed bg (lebih kecil = lebih pelan)
-  current += (target - current) * 0.08; // smoothing
-  bg.style.transform = `translate3d(0, ${-current}px, 0)`;
+  target = window.scrollY * 0.15;
+  current += (target - current) * 0.08;
+
+  bg.style.setProperty("--parallaxY", `${-current}px`);
   requestAnimationFrame(parallax);
 }
 

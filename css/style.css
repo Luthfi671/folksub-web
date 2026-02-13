@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "FolksubFont";
+  src: url("../assets/fonts/europa-grotesk-sh-bold.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 * {
     margin: 0;
     padding: 0;
@@ -9,6 +15,7 @@
     background: #0b0b0b;
     color: white;
     overflow-y: scroll;
+    padding-bottom: 100px;
   }
 
   html {
@@ -17,36 +24,73 @@
   }
   
   .section {
-    min-height: 100vh;
+    min-height: 70vh;
     scroll-margin-top: 110px;
     /* scroll-snap-align: start; */
   
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 80px;
+    padding: clamp(28px, 5vw, 72px);
   }
 
+  /* Batasi lebar konten biar teks nggak kepanjangan */
+  .section > *{
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+
   .section:not(.hero) {
-    background: rgba(10, 10, 10, 0.25);
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    /* background: rgba(10, 10, 10, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.06); */
     backdrop-filter: blur(8px);
   }
 
   .hero {
     text-align: center;
+    padding-top: 40px;
+  }
+
+  .hero > *{
+    max-width: none;
   }
   
   .title {
     font-size: clamp(3rem, 10vw, 8rem);
     font-weight: 800;
     letter-spacing: 0.1em;
+    background: linear-gradient(90deg, #22D3EE, #3B82F6, #6366F1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 6s linear infinite;
+  }
+
+  @keyframes shine {
+    0% { background-position: 0% }
+    100% { background-position: 200% }
   }
   
   .subtitle {
     margin-top: 20px;
     font-size: 1.2rem;
     opacity: 0.7;
+  }
+  
+  .section p{
+    max-width: 80ch;     /* 60–75ch ideal readability */
+    font-size: large;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.65;
+    opacity: 0.92;
+  }
+
+  .section h2{
+    font-family: "FolksubFont", sans-serif;
+    padding-bottom: 15px;
+    font-size: xx-large;
+    letter-spacing: 0.05em; /* bikin huruf lebih “lega” */
   }
 
   .animate {
@@ -64,6 +108,42 @@
     position: relative;
     padding-top: 84px; /* tinggi header */
   }
+
+  .page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.6) 100%);
+    z-index: 10;
+  }
+
+  /* Mobile tuning */
+@media (max-width: 768px){
+  .page{ padding-top: 76px; }  /* sedikit turun (header kamu fixed) */
+
+  .hero{
+    min-height: calc(100svh - 76px); /* svh lebih aman di HP */
+    padding-top: 18px;
+    padding-bottom: 20px;
+  }
+
+  .title{
+    font-size: clamp(2.4rem, 12vw, 4.4rem);
+    letter-spacing: 0.06em; /* dari 0.1em, ini sering bikin kepotong */
+  }
+
+  .subtitle{
+    font-size: 1rem;
+    padding-inline: 10px;
+  }
+
+  .section{
+    min-height: 50vh;                 /* jangan maksa 70vh di HP */
+    padding: 56px 25px;               /* lebih rapat */
+  }
+}
+
 
   /* header fixed ala “premium” */
 .site-header {
@@ -105,11 +185,11 @@
   }
   
   .brand-mark {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.9);
-    box-shadow: 0 0 18px rgba(255,255,255,0.35);
+    width: 140px;
+    margin-left: 10px;
+    object-fit: contain;
+    border-radius: 8px; /* optional kalau logonya kotak */
+    filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.35));
   }
 
   .brand-text {
@@ -246,31 +326,76 @@
 
   /* background ikut scroll */
 .bg {
-    position: absolute;
+    position: fixed;
     inset: 0;
     height: 100%;
     z-index: -2;
     overflow: hidden;
+    --parallaxY: 0px;
 }
   
 .bg::before {
-    content: "";
-    position: absolute;
-    inset: -20%; /* penting buat nutup saat digeser */
-    background-image: url("../assets/images/background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    transform: translate3d(0, 0, 0) scale(1.1);
-    will-change: transform;
+  content:"";
+  position:absolute;
+  inset:-20%;
+  background: linear-gradient(
+    -45deg,
+    #0B1220,
+    #0A2A66,
+    #2563EB,
+    #1f72b6,
+    #1E3A8A
+  );
+  background-size: 400% 400%;
+  animation: gradientMove 14s ease-in-out infinite;
+  transform: translate3d(0, var(--parallaxY), 0) scale(1.08);
+  will-change: transform, background-position;
+  filter: saturate(1.15) contrast(1.05);
   }
+
+  .bg::before, .bg::after { position: absolute; }
+.bg::before { z-index: -1; }
+.bg::after  { z-index:  1; }
+.bg .glow   { z-index:  0; }
+
+  /* animasi gradien */
+@keyframes gradientMove{
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.bg .glow{
+  z-index: 0;  /* dari -1 jadi 0 */
+}
+.bg::before{
+  z-index: -1; /* pastiin layer gradient di bawah glow atau sebaliknya sesuai taste */
+}
+.bg::after{
+  z-index: 1;  /* noise paling atas */
+}
+
+@keyframes glowFloat {
+  0%   { transform: translate3d(-1%, -1%, 0) scale(1.03); }
+  50%  { transform: translate3d(1.5%, 1%, 0) scale(1.06); }
+  100% { transform: translate3d(-0.5%, 1.2%, 0) scale(1.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg::before, .bg .glow {
+    animation: none !important;
+  }
+}
   
   .bg::after {
     content: "";
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
-  opacity: 0.05;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  /* opacity: 0.05; */
   mix-blend-mode: overlay;
   pointer-events: none;
   }
@@ -280,6 +405,22 @@
     0%   { transform: translate(-2%, -2%) scale(1.05); }
     50%  { transform: translate(2%, -1%)  scale(1.08); }
     100% { transform: translate(1%, 2%)   scale(1.06); }
+  }
+
+  .bg .particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.3) 1px, transparent 1px);
+    background-size: 120px 120px;
+    opacity: 0.08;
+    animation: moveParticles 40s linear infinite;
+  }
+  
+  @keyframes moveParticles {
+    from { transform: translateY(0); }
+    to { transform: translateY(-200px); }
   }
 
   /* matikan cursor default */
