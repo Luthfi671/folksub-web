@@ -271,18 +271,26 @@
     border: 1px solid rgba(255,255,255,0.10);
     color: white;
   
+    position: relative; /* penting */
+
     cursor: pointer;
   }
 
   .menu-btn span {
-    display: block;
+    position: absolute;   
+    left: 50%;                 /* kunci tengah horizontal */
+    transform: translateX(-50%); /* center */
+    transform-origin: center;      /* biar rotate rapi */
     width: 18px;
     height: 2px;
-    margin: 5px auto;
     background: rgba(255,255,255,0.9);
     border-radius: 999px;
     transition: transform 0.25s ease, opacity 0.25s ease;
   }
+
+  /* posisi garis atas & bawah */
+.menu-btn span:nth-child(1) { top: 16px; }
+.menu-btn span:nth-child(2) { top: 26px; }
 
   /* responsive: nav jadi drawer */
 @media (max-width: 768px) {
@@ -321,13 +329,13 @@
       display: inline-block;
     }
   
-    /* animasi X */
-    .site-header.menu-open .menu-btn span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-    .site-header.menu-open .menu-btn span:nth-child(2) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
+    /* animasi jadi X */
+  .site-header.menu-open .menu-btn span:nth-child(1) {
+    transform: translateX(-50%) translateY(5px) rotate(45deg);
+  }
+  .site-header.menu-open .menu-btn span:nth-child(2) {
+    transform: translateX(-50%) translateY(-5px) rotate(-45deg);
+  }
   }
 
   /* background ikut scroll */
