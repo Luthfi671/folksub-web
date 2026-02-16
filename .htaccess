@@ -1,0 +1,18 @@
+RewriteEngine On
+
+# 1) Jangan utak-atik file/folder yang memang ada (assets, css, js, dll)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 2) Redirect kalau ada yang akses /nama.html -> /nama  (opsional tapi bagus)
+RewriteCond %{THE_REQUEST} \s/+(view/)?([^.?\s]+)\.html[\s?] [NC]
+RewriteRule ^(view/)?([^.]+)\.html$ /$2 [R=301,L]
+
+# 3) Akses /nama -> ambil /view/nama.html kalau file nya ada
+RewriteCond %{DOCUMENT_ROOT}/view/$1.html -f
+RewriteRule ^([A-Za-z0-9/_-]+)/?$ view/$1.html [L]
+
+# 4) (opsional) Kalau akses /view/nama langsung, tetap boleh (tanpa .html)
+RewriteCond %{DOCUMENT_ROOT}/view/$1 -f
+RewriteRule ^view/(.+)/?$ view/$1 [L]
