@@ -126,3 +126,6 @@ function updateTime() {
 
 updateTime();
 setInterval(updateTime, 1000);
+
+const footerYear = document.getElementById("footerYear");
+if (footerYear) footerYear.textContent = new Date().getFullYear();

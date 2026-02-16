@@ -524,3 +524,328 @@
     font-size: 1.6rem;
     font-weight: 600;
   }
+
+  /* FOOTER */
+  .site-footer{
+    padding: 80px 18px 34px;
+  }
+  
+  .footer-inner{
+    max-width: 1100px;
+    margin: 0 auto;
+  
+    padding: 26px;
+    border-radius: 26px;
+  
+    background: rgba(12, 12, 12, 0.40);
+    border: 1px solid rgba(255,255,255,0.10);
+    backdrop-filter: blur(14px);
+  
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.03) inset,
+                0 25px 80px rgba(0,0,0,0.35);
+  }
+  
+  .footer-top{
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  
+  .footer-tag{
+    display: inline-block;
+    font-size: 0.9rem;
+    opacity: 0.75;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.04);
+  }
+  
+  .footer-title{
+    margin-top: 14px;
+    font-family: "FolksubFont", sans-serif;
+    letter-spacing: 0.06em;
+    font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  }
+  
+  .footer-desc{
+    margin-top: 10px;
+    opacity: 0.85;
+    line-height: 1.7;
+    max-width: 52ch;
+  }
+  
+  .footer-cta{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  
+  .cta-btn{
+    text-decoration: none;
+    color: rgba(255,255,255,0.9);
+    font-weight: 700;
+  
+    padding: 12px 16px;
+    border-radius: 999px;
+  
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+  
+    transition: transform .18s ease, border-color .18s ease, background .18s ease;
+  }
+  
+  .cta-btn:hover{
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(34, 211, 238, 0.35);
+  }
+  
+  /* tombol utama */
+  .cta-btn.primary{
+    background: linear-gradient(90deg, rgba(34,211,238,0.22), rgba(59,130,246,0.22), rgba(99,102,241,0.22));
+    border-color: rgba(34, 211, 238, 0.25);
+  }
+  
+  .footer-bottom{
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .social-row{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .social-ic{
+    width: 42px;
+    height: 42px;
+  
+    display: grid;
+    place-items: center;
+  
+    border-radius: 999px;
+    text-decoration: none;
+  
+    color: rgba(255,255,255,0.85);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    font-size: 0.85rem;
+  
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+  
+    transition: transform .18s ease, border-color .18s ease, background .18s ease;
+  }
+  
+  .social-ic:hover{
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(34, 211, 238, 0.35);
+  }
+  
+  .footer-meta{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  
+    opacity: 0.75;
+    font-size: 0.95rem;
+  }
+  
+  .footer-mini{
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(255,255,255,0.25);
+  }
+  .footer-mini:hover{
+    color: rgba(255,255,255,1);
+    border-bottom-color: rgba(34,211,238,0.45);
+  }
+  
+  .dot{ opacity: 0.5; }
+  
+  @media (max-width: 768px){
+    .footer-inner{
+      padding: 18px;
+      border-radius: 22px;
+    }
+  
+    .footer-top{
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .footer-cta{
+      justify-content: flex-start;
+    }
+  
+    .footer-bottom{
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .social-ic img{
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    opacity: 0.9;
+    transition: transform .18s ease, opacity .18s ease;
+  }
+  
+  .social-ic:hover img{
+    transform: scale(1.08);
+    opacity: 1;
+  }
+
+  .social-ic:hover{
+    box-shadow: 0 0 22px rgba(34,211,238,0.25);
+  }
+
+  .cta-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .cta-ico{
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    opacity: 0.92;
+  }
+  
+  .cta-btn:hover .cta-ico{
+    transform: scale(1.06);
+    opacity: 1;
+  }
+
+  .cta-ico,
+.social-ic img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+
+  filter: grayscale(1) invert(1);
+  opacity: 0.9;
+  transition: filter .2s ease, opacity .2s ease, transform .2s ease;
+}
+
+.social-ic:hover img,
+.cta-btn:hover .cta-ico {
+  filter: grayscale(1) invert(1);
+  transform: scale(1.08);
+}
+
+
+/* MEDIA PARTNER */
+.media-partner{
+  padding: 80px 18px 20px;
+}
+
+.media-inner{
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.media-label{
+  font-family: "FolksubFont", sans-serif;
+  letter-spacing: 0.15em;
+  font-size: 0.9rem;
+  opacity: 0.6;
+  margin-bottom: 26px;
+}
+
+.media-logos{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.media-logo img{
+  max-height: 60px;
+  object-fit: contain;
+
+  filter: grayscale(0) opacity(0.8);
+  transition: filter .25s ease, transform .25s ease, opacity .25s ease;
+}
+
+.media-logo:hover img{
+  filter: grayscale(0) opacity(1);
+  transform: scale(1.05);
+}
+
+/* Collabs */
+.collab-showcase{
+  padding-top: 60px;
+}
+
+.collab-inner{
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.collab-label{
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-bottom: 12px;
+}
+
+.collab-title{
+  font-family: "FolksubFont", sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  margin-bottom: 24px;
+}
+
+.collab-image{
+  position: relative;
+  border-radius: 26px;
+  overflow: hidden;
+
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(10px);
+
+  transition: transform .4s ease;
+}
+
+.collab-image img{
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform .6s ease;
+}
+
+.collab-image:hover img{
+  transform: scale(1.03);
+}
+
+/* khusus partner logo biar lebih subtle */
+.collab-image.partner img{
+  filter: grayscale(0.2) contrast(1.05);
+}
+
+@media (max-width: 768px){
+  .collab-inner{
+    gap: 50px;
+  }
+}
